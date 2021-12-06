@@ -1,0 +1,76 @@
+package:
+  name: r-signature.tools.lib
+  version: 0.0.0.9000
+
+source:
+  git_url: https://github.com/umccr/signature.tools.lib
+  git_tag: 0.0.0.9000_Dec2021_1
+
+build:
+  number: 0
+  noarch: generic
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+requirements:
+  build:
+    - git
+  host:
+    - r-base
+    - bioconductor-biocgenerics
+    - r-gensa
+    - bioconductor-genomeinfodb
+    - bioconductor-genomicranges
+    - bioconductor-iranges
+    - r-nmf
+    - r-nnlm
+    - r-rcircos
+    - bioconductor-summarizedexperiment
+    - bioconductor-variantannotation
+    - r-cluster
+    - r-domc
+    - r-doparallel
+    - r-dorng
+    - r-foreach
+    - r-ggplot2
+    - r-gmp
+    - r-lpsolve
+    - r-nnls
+    - r-plyr
+    - r-readr
+    - r-scales
+  run:
+    - r-base
+    - bioconductor-biocgenerics
+    - r-gensa
+    - bioconductor-genomeinfodb
+    - bioconductor-genomicranges
+    - bioconductor-iranges
+    - r-nmf
+    - r-nnlm
+    - r-rcircos
+    - bioconductor-summarizedexperiment
+    - bioconductor-variantannotation
+    - r-cluster
+    - r-domc
+    - r-doparallel
+    - r-dorng
+    - r-foreach
+    - r-ggplot2
+    - r-gmp
+    - r-lpsolve
+    - r-nnls
+    - r-plyr
+    - r-readr
+    - r-scales
+
+test:
+  commands:
+    - $R -e "library('signature.tools.lib')"
+
+about:
+  home: https://github.com/umccr/signature.tools.lib
+  license: What license is it under?
+  summary: R package with useful functions for mutational signatures analysis.
+  license_family: OTHER
