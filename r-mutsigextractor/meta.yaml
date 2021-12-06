@@ -1,0 +1,40 @@
+package:
+  name: r-mutsigextractor
+  version: 1.25
+
+source:
+
+  git_url: https://github.com/UMCUGenetics/mutSigExtractor
+  git_tag: 1.25
+
+build:
+  number: 0
+  noarch: generic
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+requirements:
+  build:
+    - git
+  host:
+    - r-base
+    - bioconductor-bsgenome
+    - bioconductor-genomeinfodb
+    - bioconductor-iranges
+
+  run:
+    - r-base
+    - bioconductor-bsgenome
+    - bioconductor-genomeinfodb
+    - bioconductor-iranges
+
+test:
+  commands:
+    - $R -e "library('mutSigExtractor')"
+
+about:
+  home: https://github.com/UMCUGenetics/mutSigExtractor
+  license: GPL3
+  summary: Extracts SNV, indel, DBS, and SV signatures from vcf files.
+  license_family: GPL3

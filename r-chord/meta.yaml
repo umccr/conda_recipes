@@ -1,0 +1,45 @@
+package:
+  name: r-chord
+  version: 2.00
+
+source:
+
+  git_url: https://github.com/UMCUGenetics/CHORD
+  git_tag: 2.00
+
+build:
+  number: 0
+  noarch: generic
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+requirements:
+  build:
+    - git
+
+  host:
+    - r-base
+    - r-mutsigextractor
+    - r-randomforest
+
+  run:
+    - r-base
+    - r-mutsigextractor
+    - r-randomforest
+
+test:
+  commands:
+    - $R -e "library('CHORD')"
+
+about:
+  home: https://github.com/UMCUGenetics/CHORD
+  license: MIT
+  summary: CHORD is a random forest model that uses the relative counts of somatic mutation contexts
+    to predict homologous recombination deficiency (HRD). The primary contexts used
+    by CHORD are deletions with flanking microhomology and 1-100kb structural duplications.
+    Additionally, 1-100kb structural duplications are used to distinguish BRCA1-type
+    HRD from BRCA2-type HRD.
+  license_family: MIT
+  license_file:
+    - '{{ environ["PREFIX"] }}/lib/R/share/licenses/MIT'
