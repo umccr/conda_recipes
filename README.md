@@ -8,6 +8,7 @@
   - [Package build](#package-build)
   - [Upload](#upload)
   - [Cleanup](#cleanup)
+  - [Notes](#notes)
 
 Recipes for tools that can't quite make it to bioconda/conda-forge, for one reason or another.
 
@@ -77,4 +78,13 @@ anaconda -t <token> upload /path/to/miniconda/envs/cbuild/conda-bld/linux-64/r-g
 ```bash
 conda build purge
 conda clean --all
+```
+
+
+## Notes
+
+- `r-nnlm` needs to be built on Linux else it outputs an error when running pkgdown on GitHub Actions:
+
+```
+shared object 'NNLM.so' not found
 ```
