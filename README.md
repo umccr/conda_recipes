@@ -32,6 +32,7 @@ mamba create -n cbuild conda-build anaconda-client conda-verify boa \
 ```bash
 # this has all the build tools already installed
 docker run --rm -it -v $(PWD):/home/umccr/recipes quay.io/condaforge/linux-anvil-comp7:latest
+conda mambabuild /home/umccr/recipes/r-foo --R 4.1 --token "<anaconda-token>" -c umccr -c conda-forge -c bioconda -c defaults
 ```
 
 ## Recipe Generation
