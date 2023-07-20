@@ -1,0 +1,44 @@
+name: pcgr-conda-lock
+
+on:
+  workflow_dispatch
+env:
+  atoken: ${{ secrets.ANACONDA_UPLOAD_TOKEN }}
+  env_yml_path: pcgr/env/yml
+  env_lock_path: pcgr/env/lock
+jobs:
+  conda_lock:
+    name: Build conda envs
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v3
+      - name: Mambaforge setup
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          miniforge-variant: Mambaforge
+          miniforge-version: "latest"
+          show-channel-urls: true
+          auto-activate-base: false
+          activate-environment: condabuild
+          environment-file: ${{ env.env_yml_path }}/condabuild.yml
+          use-mamba: true
+      - name: Generate conda locks
+        run: |
+          conda-lock lock --mamba --file ${env_yml_path}/pcgr.yml --filename-template 'pcgr-{platform}.lock' -p osx-64 -p linux-64
+          conda-lock lock --mamba --file ${env_yml_path}/pcgrr.yml --filename-template 'pcgrr-{platform}.lock' -p osx-64 -p linux-64
+          mv pcgrr-*.lock ${env_lock_path}
+          mv pcgr-*.lock ${env_lock_path}
+      - name: Commit changes
+        run: |
+          git status
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          MSG="[bot] Updating pcgr conda-lock files"
+          git add .
+          git commit -m "${MSG}"
+          git push
