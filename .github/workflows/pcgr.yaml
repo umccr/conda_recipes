@@ -29,8 +29,12 @@ jobs:
           use-mamba: true
       - name: Generate conda locks
         run: |
-          conda-lock lock --mamba --file ${env_yml_path}/pcgr.yml --filename-template 'pcgr-{platform}.lock' -p osx-64 -p linux-64
-          conda-lock lock --mamba --file ${env_yml_path}/pcgrr.yml --filename-template 'pcgrr-{platform}.lock' -p osx-64 -p linux-64
+          # 1. generate a combined lock file
+          # 2. render platform-specific locks
+          conda-lock lock --file ${env_yml_path}/pcgr.yml -p osx-64 -p linux-64
+          conda-lock render --kind explicit -p osx-64 -p linux-64 conda-lock.yml --filename-template 'pcgr-{platform}.lock' && rm conda-lock.yml
+          conda-lock lock --file ${env_yml_path}/pcgrr.yml -p osx-64 -p linux-64
+          conda-lock render --kind explicit -p osx-64 -p linux-64 conda-lock.yml --filename-template 'pcgrr-{platform}.lock' && rm conda-lock.yml
           mv pcgrr-*.lock ${env_lock_path}
           mv pcgr-*.lock ${env_lock_path}
       - name: Commit changes
