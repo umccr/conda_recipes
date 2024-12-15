@@ -35,19 +35,16 @@ jobs:
         shell: bash -l {0}
     steps:
       - name: Code checkout
-        uses: actions/checkout@v3
-      - name: Miniconda setup
-        uses: conda-incubator/setup-miniconda@v2
+        uses: actions/checkout@v4
+      - name: MicroMamba setup
+        uses: mamba-org/setup-micromamba@v2
         with:
-          auto-update-conda: true
-          add-pip-as-python-dependency: false # conda-lock goes crazy if pip pre-installed
-          activate-environment: env1
-          miniforge-variant: Mambaforge
-          miniforge-version: "latest"
-          channels: "umccr,conda-forge,bioconda"
+          environment-name: cbuildenv
+          create-args:
+            conda-build
+            conda-verify
+            anaconda-client
+            boa
       - name: 🐍 Conda pkg build and upload
         run: |
-          conda activate
-          mamba create --name cbuildenv conda-build conda-verify anaconda-client boa
-          conda activate cbuildenv
           conda mambabuild --R ${{ github.event.inputs.r_version }} ${{ github.event.inputs.conda_pkg }} --token ${atoken}
