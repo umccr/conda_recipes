@@ -47,4 +47,4 @@ jobs:
             boa
       - name: 🐍 Conda pkg build and upload
         run: |
-          conda mambabuild --R ${{ github.event.inputs.r_version }} ${{ github.event.inputs.conda_pkg }} --token ${atoken}
+          conda mambabuild --R ${{ github.event.inputs.r_version }} ${{ github.event.inputs.conda_pkg }} --token ${atoken} -c umccr -c conda-forge -c bioconda
