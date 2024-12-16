@@ -1,11 +1,11 @@
 package:
   name: r-mutsigextractor
-  version: 1.25
+  version: 1.29
 
 source:
 
   git_url: https://github.com/UMCUGenetics/mutSigExtractor
-  git_tag: 1.25
+  git_tag: 1.29
 
 build:
   number: 0
