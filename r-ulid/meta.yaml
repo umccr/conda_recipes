@@ -1,0 +1,71 @@
+{% set version = "0.4.0" %}
+{% set posix = 'm2-' if win else '' %}
+
+package:
+  name: r-ulid
+  version: {{ version|replace("-", "_") }}
+
+source:
+  url:
+    - {{ cran_mirror }}/src/contrib/ulid_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/ulid/ulid_{{ version }}.tar.gz
+  sha256: 98c0de1081e5555b1a6b961dfcee9c8910a2355dde68a045758e2c47f53a42bc
+
+build:
+  number: 0
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+requirements:
+  build:
+    - cross-r-base {{ r_base }}  # [build_platform != target_platform]
+    - r-rcpp                      # [build_platform != target_platform]
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - {{ posix }}filesystem       # [win]
+    - {{ posix }}make
+    - {{ posix }}sed              # [win]
+    - {{ posix }}coreutils        # [win]
+    - {{ posix }}zip              # [win]
+  host:
+    - r-base
+    - r-rcpp
+  run:
+    - r-base
+    - r-rcpp
+
+test:
+  commands:
+    - $R -e "library('ulid')"                        # [not win]
+    - "\"%R%\" -e \"library('ulid')\""               # [win]
+
+about:
+  home: https://github.com/eddelbuettel/ulid
+  dev_url: https://github.com/eddelbuettel/ulid
+  license: MIT
+  summary: Generate Universally Unique Lexicographically Sortable Identifiers
+  description: |
+    Universally unique identifiers ('UUIDs') can be sub-optimal for many 
+    uses-cases because they are not the most character efficient way of 
+    encoding 128 bits of randomness; v1/v2 versions are impractical in many 
+    environments, as they require access to a unique, stable MAC address; 
+    v3/v5 versions require a unique seed and produce randomly distributed IDs, 
+    which can cause fragmentation in many data structures; v4 provides no other 
+    information than randomness which can cause fragmentation in many data 
+    structures. Providing an alternative, 'ULIDs' have 128-bit compatibility 
+    with 'UUID', 1.21e+24 unique 'ULIDs' per millisecond, support standard 
+    (text) sorting, canonically encoded as a 26 character string, as opposed 
+    to the 36 character 'UUID', use 'base32' encoding for better efficiency 
+    and readability (5 bits per character), are case insensitive, have no 
+    special characters (i.e. are 'URL' safe) and have a monotonic sort order 
+    (correctly detects and handles the same millisecond).
+  license_family: MIT
+  license_file:
+    - {{ environ["PREFIX"] }}/lib/R/share/licenses/MIT
+    - LICENSE
+
+extra:
+  recipe-maintainers:
+    - conda-forge/r
+    - pdiakumis
