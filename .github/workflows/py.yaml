@@ -1,0 +1,34 @@
+name: conda-build
+
+on:
+  workflow_dispatch:
+    inputs:
+      conda_pkg:
+        type: choice
+        description: conda pkg to build
+        required: true
+        options:
+        - openspliceai
+
+env:
+  atoken: ${{ secrets.ANACONDA_UPLOAD_TOKEN }}
+jobs:
+  conda-build:
+    name: Conda Package Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v6
+      - name: MicroMamba setup
+        uses: mamba-org/setup-micromamba@v3
+        with:
+          environment-name: cbuildenv
+          create-args:
+            conda-build
+            anaconda-client
+      - name: 🐍 Conda pkg build and upload
+        run: |
+          conda build ${{ github.event.inputs.conda_pkg }} --token ${atoken} -c umccr -c conda-forge -c bioconda
