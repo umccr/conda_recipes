@@ -1,0 +1,26 @@
+{% set name = "openspliceai" %}
+{% set version = "0.0.5" %}
+
+package:
+  name: {{ name }}
+  version: {{ version }}
+
+source:
+  url: https://files.pythonhosted.org/packages/80/7b/fa0a41f96f4e7c8dd51793b74d4227b54a0540ab03b3908dca143c7bd796/openspliceai-0.0.5.tar.gz
+  sha256: eea7a6d08160a9e119f1239c45aa69f0448d5498614634567737e61e69534c65
+
+build:
+  noarch: python
+  pip_interop_enabled: true
+
+requirements:
+  host:
+    - python >=3.9
+    - pip
+  run:
+    - python >=3.9
+
+about:
+  home: https://github.com/Kuanhao-Chao/OpenSpliceAI
+  license: MIT
+  summary: "Deep learning framework that decodes splicing across species"
