@@ -20,6 +20,23 @@ requirements:
     - setuptools
   run:
     - python >=3.9
+    - h5py
+    - numpy
+    - bioconda::gffutils
+    - bioconda::pysam
+    - pandas
+    - bioconda::pyfaidx
+    - tqdm
+    - conda-forge::pytorch
+    - conda-forge::torchaudio
+    - conda-forge::torchvision
+    - scikit-learn
+    - conda-forge::biopython
+    - matplotlib
+    - matplotlib-inline
+    - psutil
+    - bioconda::mappy
+
 
 about:
   home: https://github.com/Kuanhao-Chao/OpenSpliceAI
