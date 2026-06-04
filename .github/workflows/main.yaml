@@ -55,4 +55,4 @@ jobs:
             anaconda-client
       - name: 🐍 Conda pkg build and upload
         run: |
-          conda build --R ${{ github.event.inputs.r_version }} ${{ github.event.inputs.conda_pkg }} --target-platform ${{ github.event.inputs.platform }} --token ${atoken} -c tidywf -c umccr -c conda-forge -c bioconda
+          conda build --R ${{ github.event.inputs.r_version }} ${{ github.event.inputs.conda_pkg }} --variants '{"target_platform": "${{ github.event.inputs.platform }}"}' --token ${atoken} -c tidywf -c umccr -c conda-forge -c bioconda
