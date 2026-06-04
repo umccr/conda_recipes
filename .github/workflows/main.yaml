@@ -39,7 +39,7 @@ env:
 jobs:
   conda-build:
     name: Conda Package Build
-    runs-on: ubuntu-latest
+    runs-on: ${{ github.event.inputs.platform == 'linux-aarch64' && 'ubuntu-24.04-arm' || 'ubuntu-latest' }}
     defaults:
       run:
         shell: bash -l {0}
@@ -55,4 +55,4 @@ jobs:
             anaconda-client
       - name: 🐍 Conda pkg build and upload
         run: |
-          conda build --R ${{ github.event.inputs.r_version }} ${{ github.event.inputs.conda_pkg }} --variants '{"target_platform": "${{ github.event.inputs.platform }}"}' --token ${atoken} -c tidywf -c umccr -c conda-forge -c bioconda
+          conda build --R ${{ github.event.inputs.r_version }} ${{ github.event.inputs.conda_pkg }} --token ${atoken} -c tidywf -c umccr -c conda-forge -c bioconda
