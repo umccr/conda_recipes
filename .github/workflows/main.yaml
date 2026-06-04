@@ -23,6 +23,14 @@ on:
         - "4.2"
         - "4.3"
         - "4.4"
+      platform:
+        type: choice
+        description: Target platform
+        required: true
+        default: "linux-64"
+        options:
+        - linux-64
+        - linux-aarch64
 
 
 
@@ -44,9 +52,7 @@ jobs:
           environment-name: cbuildenv
           create-args:
             conda-build
-            conda-verify
             anaconda-client
-            boa
       - name: 🐍 Conda pkg build and upload
         run: |
-          conda mambabuild --R ${{ github.event.inputs.r_version }} ${{ github.event.inputs.conda_pkg }} --token ${atoken} -c umccr -c conda-forge -c bioconda
+          conda build --R ${{ github.event.inputs.r_version }} ${{ github.event.inputs.conda_pkg }} --target-platform ${{ github.event.inputs.platform }} --token ${atoken} -c tidywf -c umccr -c conda-forge -c bioconda
